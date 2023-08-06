@@ -16,7 +16,8 @@ app.get('/', function (req, res) {
 
 // creating the post request
 app.post('/api/fileanalyse', upload.single('upfile'),(req, res) => {
-  console.log(req.file);
+  try {
+    console.log(req.file);
   const file_name = req.file.originalname;
   const file_type = req.file.mimetype;
   const file_size = req.file.size;
@@ -25,6 +26,10 @@ app.post('/api/fileanalyse', upload.single('upfile'),(req, res) => {
     type: file_type,
     size: file_size
   });
+  } catch (error) {
+    res.json({message: "file upload failed"});
+    console.log(error);
+  } 
 })
 
 const port = process.env.PORT || 3000;
